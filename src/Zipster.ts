@@ -92,8 +92,8 @@ class Zipster {
    * Returns the output path configured with specified options or defaults
    */
   private getOutputPath(options: Options): string {
-    const outputName = options?.output?.name ?? uuid.v4()
-    const outputDirectory = options?.output?.path ?? os.tmpdir()
+    const outputName = options.output?.name ?? uuid.v4()
+    const outputDirectory = options.output?.path ?? os.tmpdir()
 
     return `${outputDirectory}/${outputName}.zip`
   }
