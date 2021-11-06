@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as os from 'os'
+import * as uuid from 'uuid'
 import * as Stream from 'stream'
 
 import { createSandbox } from 'sinon'
@@ -10,6 +11,7 @@ import { ArchiverFactory } from '../../../src/factories/ArchiverFactory'
 
 describe('Zipper', () => {
   const sandbox = createSandbox()
+  const defaultFileName = 'xxxx-xxxx-xxxx-xxxx'
   const directory = '/some/path/to/file.txt'
   const options: Options = {
     format: Formats.ZIP
@@ -17,7 +19,7 @@ describe('Zipper', () => {
 
   const stream = new Stream()
   const buffer = new Buffer('')
-  const error = new Error('Some strange is afoot.')
+  const error = new Error('Something strange is afoot.')
 
   let tmpdir: any
   let archiver: any
@@ -35,13 +37,16 @@ describe('Zipper', () => {
     createWriteStream = sandbox.stub(fs, 'createWriteStream')
     getArchiver = sandbox.stub(ArchiverFactory, 'getArchiver')
 
+    sandbox.stub(uuid, 'v4')
+      .returns(defaultFileName as any)
+
     zipper = new Zipper()
   })
 
   afterEach(() => sandbox.restore())
 
   describe('#create', () => {
-    const expectedDirectory = '/some/path/to/file.zip'
+    const expectedDirectory = `/some/path/to/${defaultFileName}.zip`
 
     beforeEach(() => {
       tmpdir.onFirstCall()
@@ -108,7 +113,7 @@ describe('Zipper', () => {
   })
 
   describe('#createBulk', () => {
-    const expectedDirectory = '/some/path/to/archive.zip'
+    const expectedDirectory = `/some/path/to/${defaultFileName}.zip`
     const directories = [
       directory,
       '/some/path/to/other.csv'
@@ -178,7 +183,7 @@ describe('Zipper', () => {
         })
     })
 
-    it('rejects when an error occurs reading a directory', () => {
+    it('rejects with a `ZipperError` when an error is thrown', () => {
       readFileSync.onFirstCall()
         .throws(error)
 

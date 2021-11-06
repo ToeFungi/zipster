@@ -25,7 +25,7 @@ class FileParts {
   /**
    * Get the name of the file
    */
-  public getName(): String {
+  public getName(): string {
     return this.fileName
   }
 

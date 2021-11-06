@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as os from 'os'
+import * as uuid from 'uuid'
 
 import { Options } from './types/Options'
 import { FileParts } from './libs/FileParts'
@@ -13,17 +14,14 @@ class Zipper {
   /**
    * Add a single file to a single ZIP file
    */
-  public create (directory: string, options: Options): Promise<string> {
+  public create(directory: string, options: Options): Promise<string> {
     const fileParts = new FileParts(directory)
 
     const archiveData = {
       name: `${fileParts.getName()}.${fileParts.getExtension()}`
     }
 
-    const outputName = options?.output?.name ?? fileParts.getName()
-    const outputDirectory = options?.output?.directory ?? os.tmpdir()
-
-    const outputLocation = `${outputDirectory}/${outputName}.zip`
+    const outputLocation = this.getOutputDirectory(options)
 
     const getSourceBuffer = (): Buffer => fs.readFileSync(directory)
 
@@ -54,11 +52,8 @@ class Zipper {
   /**
    * Add multiple files to a single ZIP file
    */
-  public createBulk (directories: string[], options: Options): Promise<string> {
-    const outputName = options?.output?.name ?? 'archive'
-    const outputDirectory = options?.output?.directory ?? os.tmpdir()
-
-    const outputLocation = `${outputDirectory}/${outputName}.zip`
+  public createBulk(directories: string[], options: Options): Promise<string> {
+    const outputLocation = this.getOutputDirectory(options)
 
     const mapToFileParts = () => directories.map((directory: string) => new FileParts(directory))
 
@@ -91,6 +86,13 @@ class Zipper {
       .then(appendToZIP)
       .then(mapSuccess)
       .catch(tapError)
+  }
+
+  private getOutputDirectory(options: Options): string {
+    const outputName = options?.output?.name ?? uuid.v4()
+    const outputDirectory = options?.output?.directory ?? os.tmpdir()
+
+    return `${outputDirectory}/${outputName}.zip`
   }
 }
 

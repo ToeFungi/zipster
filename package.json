@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "uuid": "3.4.0",
     "archiver": "5.3.0",
     "archiver-zip-encryptable": "1.0.10"
   },
@@ -19,6 +20,7 @@
     "@types/mocha": "9.0.0",
     "@types/sinon": "10.0.6",
     "@types/sinon-chai": "3.2.5",
+    "@types/uuid": "3.4.6",
     "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
     "mocha": "9.1.3",
