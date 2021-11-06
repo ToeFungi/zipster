@@ -1,6 +1,6 @@
 {
   "name": "zipster",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,8 +10,19 @@
     "build": "tsc",
     "test": "mocha --config ./test/support/unit.yml"
   },
-  "author": "Alex Pickering",
+  "author": {
+    "name": "Alex Pickering",
+    "url": "https://github.com/ToeFungi/"
+  },
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToeFungi/zipster.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ToeFungi/zipster/issues"
+  },
+  "homepage": "https://github.com/ToeFungi/zipster",
   "dependencies": {
     "uuid": "3.4.0",
     "archiver": "5.3.0",
