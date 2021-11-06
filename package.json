@@ -1,5 +1,5 @@
 {
-  "name": "zipper",
+  "name": "zipster",
   "version": "1.0.0",
   "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "index.js",

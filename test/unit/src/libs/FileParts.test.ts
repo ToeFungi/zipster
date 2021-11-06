@@ -12,7 +12,7 @@ describe('FileParts', () => {
   })
 
   describe('#constructor', () => {
-    it('throws an error when the directory is malformed', () => {
+    it('throws a `ZipsterError` when the directory is malformed', () => {
       try {
         new FileParts('/malformed/directory')
       } catch (error) {

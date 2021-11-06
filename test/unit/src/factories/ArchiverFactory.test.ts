@@ -3,7 +3,7 @@ import * as archiverZipEncryptable from 'archiver-zip-encryptable'
 
 import { createSandbox } from 'sinon'
 
-import { Formats, Options, ZipperError } from '../../../../src'
+import { Formats, Options, ZipsterError } from '../../../../src'
 import { ArchiverFactory } from '../../../../src/factories/ArchiverFactory'
 
 describe('ArchiverFactory', () => {
@@ -76,7 +76,7 @@ describe('ArchiverFactory', () => {
       })
     })
 
-    it('throws an error when the format is not supported', () => {
+    it('throws a `ZipsterError` when the format is not supported', () => {
       const options = {
         format: 'unknown'
       } as any
@@ -84,7 +84,7 @@ describe('ArchiverFactory', () => {
       try {
         ArchiverFactory.getArchiver(options)
       } catch (error) {
-        error.should.be.instanceOf(ZipperError)
+        error.should.be.instanceOf(ZipsterError)
         error.message.should.deep.equal('Unknown archiver format')
       }
     })

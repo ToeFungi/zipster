@@ -6,10 +6,10 @@ import * as Stream from 'stream'
 import { createSandbox } from 'sinon'
 
 import { mockArchiver } from '../../mocks/MockArchiver'
-import { Formats, Options, Zipper, ZipperError } from '../../../src'
+import { Formats, Options, Zipster, ZipsterError } from '../../../src'
 import { ArchiverFactory } from '../../../src/factories/ArchiverFactory'
 
-describe('Zipper', () => {
+describe('Zipster', () => {
   const sandbox = createSandbox()
   const defaultFileName = 'xxxx-xxxx-xxxx-xxxx'
   const directory = '/some/path/to/file.txt'
@@ -27,7 +27,7 @@ describe('Zipper', () => {
   let readFileSync: any
   let createWriteStream: any
 
-  let zipper: Zipper
+  let zipper: Zipster
 
   beforeEach(() => {
     archiver = mockArchiver(sandbox)
@@ -40,7 +40,7 @@ describe('Zipper', () => {
     sandbox.stub(uuid, 'v4')
       .returns(defaultFileName as any)
 
-    zipper = new Zipper()
+    zipper = new Zipster()
   })
 
   afterEach(() => sandbox.restore())
@@ -100,7 +100,7 @@ describe('Zipper', () => {
         })
     })
 
-    it('rejects with a `ZipperError` when an error is thrown', () => {
+    it('rejects with a `ZipsterError` when an error is thrown', () => {
       tmpdir.onFirstCall()
         .returns('/some/path/to')
 
@@ -108,7 +108,7 @@ describe('Zipper', () => {
         .throws(error)
 
       return zipper.create(directory, options)
-        .should.be.rejectedWith(ZipperError, error.message)
+        .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
 
@@ -183,12 +183,12 @@ describe('Zipper', () => {
         })
     })
 
-    it('rejects with a `ZipperError` when an error is thrown', () => {
+    it('rejects with a `ZipsterError` when an error is thrown', () => {
       readFileSync.onFirstCall()
         .throws(error)
 
       return zipper.createBulk(directories, options)
-        .should.be.rejectedWith(ZipperError, error.message)
+        .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
 })

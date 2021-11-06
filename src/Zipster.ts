@@ -4,13 +4,13 @@ import * as uuid from 'uuid'
 
 import { Options } from './types/Options'
 import { FileParts } from './libs/FileParts'
-import { ZipperError } from './errors/ZipperError'
+import { ZipsterError } from './errors/ZipsterError'
 import { ArchiverFactory } from './factories/ArchiverFactory'
 
 /**
  * Zipper facilitates the zipping and protecting of data
  */
-class Zipper {
+class Zipster {
   /**
    * Add a single file to a single ZIP file
    */
@@ -39,7 +39,7 @@ class Zipper {
     const mapSuccess = (): string => outputLocation
 
     const tapError = (error: Error): never => {
-      throw new ZipperError(error.message)
+      throw new ZipsterError(error.message)
     }
 
     return Promise.resolve()
@@ -78,7 +78,7 @@ class Zipper {
     const mapSuccess = () => outputLocation
 
     const tapError = (error: Error): never => {
-      throw new ZipperError(error.message)
+      throw new ZipsterError(error.message)
     }
 
     return Promise.resolve()
@@ -99,4 +99,4 @@ class Zipper {
   }
 }
 
-export { Zipper }
+export { Zipster }

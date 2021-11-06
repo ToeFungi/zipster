@@ -4,7 +4,7 @@ import { Archiver, create, isRegisteredFormat, registerFormat } from 'archiver'
 
 import { Formats } from '../enums/Formats'
 import { Options } from '../types/Options'
-import { ZipperError } from '../errors/ZipperError'
+import { ZipsterError } from '../errors/ZipsterError'
 
 /**
  * Archiver Factory creates an archiver instance configured with specified options
@@ -32,7 +32,7 @@ class ArchiverFactory {
       return create(options.format, archiverOptions)
     }
 
-    throw new ZipperError('Unknown archiver format')
+    throw new ZipsterError('Unknown archiver format')
   }
 
   private static registerZipEncryptable() {

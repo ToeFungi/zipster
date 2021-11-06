@@ -1,11 +1,11 @@
-import { Zipper } from './Zipper'
+import { Zipster } from './Zipster'
 import { Formats } from './enums/Formats'
 import { Options } from './types/Options'
-import { ZipperError } from './errors/ZipperError'
+import { ZipsterError } from './errors/ZipsterError'
 
 export {
-  Zipper,
+  Zipster,
   Formats,
   Options,
-  ZipperError
+  ZipsterError
 }
