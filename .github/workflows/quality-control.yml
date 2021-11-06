@@ -1,0 +1,69 @@
+name: Quality Control
+
+on:
+  push:
+    branches:
+      - development
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.cache-name }}
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm ci
+
+  quality-control:
+    name: Quality Control
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+        with:
+          node-version: 10.x
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.cache-name }}
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: NPM Auditing
+        run: npm audit
+
+      - name: Run Unit Tests
+        run: npm run coverage
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
