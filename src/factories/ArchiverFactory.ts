@@ -14,11 +14,13 @@ class ArchiverFactory {
    * Get a configured archiver instance
    */
   public static getArchiver(options: Options): Archiver {
+    const { format, ...rest } = options
     const archiverOptions = {
       forceLocalTime: true,
       zlib: {
         level: 9
-      }
+      },
+      ...rest
     }
 
     if (options.format === Formats.ZIP) {
@@ -27,10 +29,7 @@ class ArchiverFactory {
 
     if (options.format === Formats.ZIP_ENCRYPTABLE) {
       this.registerZipEncryptable()
-      return create(options.format, {
-        ...archiverOptions,
-        password: options?.password
-      } as any)
+      return create(options.format, archiverOptions)
     }
 
     throw new ZipperError('Unknown archiver format')

@@ -88,6 +88,9 @@ class Zipper {
       .catch(tapError)
   }
 
+  /**
+   * Returns the output directory configured with specified options or defaults
+   */
   private getOutputDirectory(options: Options): string {
     const outputName = options?.output?.name ?? uuid.v4()
     const outputDirectory = options?.output?.directory ?? os.tmpdir()

@@ -1,9 +1,11 @@
+import { ArchiverOptions } from 'archiver'
+
 import { Formats } from '../enums/Formats'
 
 /**
  * Options for the archiver
  */
-interface Options {
+interface Options extends ArchiverOptions {
   format: Formats
   password?: string
   output?: {
