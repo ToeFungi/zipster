@@ -9,7 +9,7 @@
     "lint": "",
     "build": "tsc",
     "test": "mocha --config ./test/support/unit.yml",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc --reporter=lcov npm run test"
   },
   "keywords": [
     "ZIP",
