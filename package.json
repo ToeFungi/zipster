@@ -1,12 +1,15 @@
 {
   "name": "zipper",
   "version": "1.0.0",
-  "description": "",
+  "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "index.js",
   "scripts": {
+    "prepare": "npm run lint && npm audit && npm run build",
+    "lint": "",
+    "build": "tsc",
     "test": "mocha --config ./test/support/unit.yml"
   },
-  "author": "",
+  "author": "Alex Pickering",
   "license": "ISC",
   "dependencies": {
     "uuid": "3.4.0",
