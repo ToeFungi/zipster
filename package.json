@@ -1,6 +1,6 @@
 {
   "name": "zipster",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -8,8 +8,20 @@
     "prepare": "npm run lint && npm audit && npm run build",
     "lint": "",
     "build": "tsc",
-    "test": "mocha --config ./test/support/unit.yml"
+    "test": "mocha --config ./test/support/unit.yml",
+    "coverage": "nyc npm run test"
   },
+  "keywords": [
+    "ZIP",
+    "password",
+    "secure",
+    "node",
+    "typescript",
+    "files",
+    "compression",
+    "compress",
+    "bulk"
+  ],
   "files": [
     "lib",
     "test",
