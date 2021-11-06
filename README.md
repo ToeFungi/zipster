@@ -1,9 +1,9 @@
-# Zipper
+# Zipster
 
-Zipper aims to enable developers to easily create password-protected ZIP files. This library relies on a combination of
+Zipster aims to enable developers to easily create password-protected ZIP files. This library relies on a combination of
 other libraries to function correctly as well as built-in Node functionality.
 
-Although the core behind Zipper is password-protected ZIP files, you can also create passwordless ZIP files and pass in
+Although the core behind Zipster is password-protected ZIP files, you can also create passwordless ZIP files and pass in
 a number of different options to configure how your ZIP files are created.
 
 **This project is still in development and is not available on NPM as yet.**
@@ -24,7 +24,7 @@ const options: Options = {
   }
 }
 
-const zipper = new Zipper()
-zipper.create(fileToZip, options)
+const zipster = new Zipster()
+zipster.create(fileToZip, options)
   .then((directory: string) => console.log({ directory }, 'Successfully created ZIP'))
 ```
