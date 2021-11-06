@@ -11,6 +11,16 @@ describe('FileParts', () => {
     fileParts = new FileParts(directory)
   })
 
+  describe('#constructor', () => {
+    it('throws an error when the directory is malformed', () => {
+      try {
+        new FileParts('/malformed/directory')
+      } catch (error) {
+        return error.message.should.deep.equal('Directory missing file name or file extension')
+      }
+    })
+  })
+
   describe('#getName', () => {
     it('returns the appropriate name of the file', () => {
       return fileParts.getName()

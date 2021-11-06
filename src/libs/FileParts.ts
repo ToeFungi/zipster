@@ -1,4 +1,5 @@
 import * as path from 'path'
+import { ZipperError } from '../errors/ZipperError'
 
 /**
  * File Parts encapsulates the important components of a file and it's directory
@@ -11,6 +12,10 @@ class FileParts {
   constructor(directory: string) {
     const [fileName, fileExtension] = path.basename(directory)
       .split('.')
+
+    if (!fileName || !fileExtension) {
+      throw new ZipperError('Directory missing file name or file extension')
+    }
 
     this.fileName = fileName
     this.directory = directory
