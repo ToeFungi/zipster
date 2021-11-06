@@ -56,6 +56,10 @@ describe('ArchiverFactory', () => {
           format: Formats.ZIP_ENCRYPTABLE,
           password: 'Foo'
         } as Options,
+        setup: () => {
+          isRegisteredFormat.onFirstCall()
+            .returns(false)
+        },
         assertions: () => {
           create.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE, {
             ...defaultArchiverOptions,
@@ -64,11 +68,32 @@ describe('ArchiverFactory', () => {
           registerFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE, archiverZipEncryptable)
           isRegisteredFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE)
         }
+      },
+      {
+        descriptor: 'returns archiver with a password and does not re-register formatter',
+        options: {
+          format: Formats.ZIP_ENCRYPTABLE,
+          password: 'Foo'
+        } as Options,
+        setup: () => {
+          isRegisteredFormat.onFirstCall()
+            .returns(true)
+        },
+        assertions: () => {
+          create.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE, {
+            ...defaultArchiverOptions,
+            password: 'Foo'
+          })
+          registerFormat.should.have.callCount(0)
+          isRegisteredFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE)
+        }
       }
     ]
 
-    testCases.forEach(({ descriptor, options, assertions }) => {
+    testCases.forEach(({ descriptor, setup, options, assertions }) => {
       it(descriptor, () => {
+        if (setup) setup()
+
         const configuredArchiver = ArchiverFactory.getArchiver(options)
 
         configuredArchiver.should.deep.equal(archive)
