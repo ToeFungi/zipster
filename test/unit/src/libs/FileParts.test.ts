@@ -3,20 +3,20 @@ import { FileParts } from '../../../../src/libs/FileParts'
 describe('FileParts', () => {
   const fileName = 'file'
   const fileExtension = 'txt'
-  const directory = `/some/path/to/${fileName}.${fileExtension}`
+  const path = `/some/path/to/${fileName}.${fileExtension}`
 
   let fileParts: FileParts
 
   beforeEach(() => {
-    fileParts = new FileParts(directory)
+    fileParts = new FileParts(path)
   })
 
   describe('#constructor', () => {
-    it('throws a `ZipsterError` when the directory is malformed', () => {
+    it('throws a `ZipsterError` when the path is malformed', () => {
       try {
-        new FileParts('/malformed/directory')
+        new FileParts('/malformed/path')
       } catch (error) {
-        return error.message.should.deep.equal('Directory missing file name or file extension')
+        return error.message.should.deep.equal('Path missing file name or file extension')
       }
     })
   })
@@ -35,10 +35,10 @@ describe('FileParts', () => {
     })
   })
 
-  describe('#getDirectory', () => {
-    it('returns the initial directory', () => {
-      return fileParts.getDirectory()
-        .should.deep.equal(directory)
+  describe('#getPath', () => {
+    it('returns the initial path', () => {
+      return fileParts.getPath()
+        .should.deep.equal(path)
     })
   })
 })

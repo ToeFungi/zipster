@@ -151,10 +151,10 @@ describe('Zipster', () => {
         format: Formats.ZIP,
         output: {
           name: 'custom',
-          directory: '/foo/bar'
+          path: '/foo/bar'
         }
       }
-      const expectedDirectory = `${options.output.directory}/${options.output.name}.zip`
+      const expectedDirectory = `${options.output.path}/${options.output.name}.zip`
 
       readFileSync.returns(buffer)
 

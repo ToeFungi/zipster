@@ -10,7 +10,7 @@ interface Options extends ArchiverOptions {
   password?: string
   output?: {
     name?: string
-    directory?: string
+    path?: string
   }
 }
 

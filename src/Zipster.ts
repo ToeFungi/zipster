@@ -14,16 +14,16 @@ class Zipster {
   /**
    * Add a single file to a single ZIP file
    */
-  public create(directory: string, options: Options): Promise<string> {
-    const fileParts = new FileParts(directory)
+  public create(path: string, options: Options): Promise<string> {
+    const fileParts = new FileParts(path)
 
     const archiveData = {
       name: `${fileParts.getName()}.${fileParts.getExtension()}`
     }
 
-    const outputLocation = this.getOutputDirectory(options)
+    const outputLocation = this.getOutputPath(options)
 
-    const getSourceBuffer = (): Buffer => fs.readFileSync(directory)
+    const getSourceBuffer = (): Buffer => fs.readFileSync(path)
 
     const createZip = (sourceBuffer: Buffer): Promise<void> => {
       const writeStream = fs.createWriteStream(outputLocation)
@@ -52,10 +52,10 @@ class Zipster {
   /**
    * Add multiple files to a single ZIP file
    */
-  public createBulk(directories: string[], options: Options): Promise<string> {
-    const outputLocation = this.getOutputDirectory(options)
+  public createBulk(paths: string[], options: Options): Promise<string> {
+    const outputLocation = this.getOutputPath(options)
 
-    const mapToFileParts = () => directories.map((directory: string) => new FileParts(directory))
+    const mapToFileParts = () => paths.map((path: string) => new FileParts(path))
 
     const appendToZIP = (fileParts: FileParts[]) => {
       const writeStream = fs.createWriteStream(outputLocation)
@@ -64,7 +64,7 @@ class Zipster {
       archive.pipe(writeStream)
 
       fileParts.forEach((filePart: FileParts) => {
-        const sourceBuffer = fs.readFileSync(filePart.getDirectory())
+        const sourceBuffer = fs.readFileSync(filePart.getPath())
         const archiveData = {
           name: `${filePart.getName()}.${filePart.getExtension()}`
         }
@@ -89,11 +89,11 @@ class Zipster {
   }
 
   /**
-   * Returns the output directory configured with specified options or defaults
+   * Returns the output path configured with specified options or defaults
    */
-  private getOutputDirectory(options: Options): string {
+  private getOutputPath(options: Options): string {
     const outputName = options?.output?.name ?? uuid.v4()
-    const outputDirectory = options?.output?.directory ?? os.tmpdir()
+    const outputDirectory = options?.output?.path ?? os.tmpdir()
 
     return `${outputDirectory}/${outputName}.zip`
   }

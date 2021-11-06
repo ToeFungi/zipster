@@ -1,25 +1,25 @@
-import * as path from 'path'
+import * as nodePath from 'path'
 
 import { ZipsterError } from '../errors/ZipsterError'
 
 /**
- * File Parts encapsulates the important components of a file and it's directory
+ * File Parts encapsulates the important components of a file and it's path
  */
 class FileParts {
+  private readonly path: string
   private readonly fileName: string
-  private readonly directory: string
   private readonly fileExtension: string
 
-  constructor(directory: string) {
-    const [fileName, fileExtension] = path.basename(directory)
+  constructor(path: string) {
+    const [fileName, fileExtension] = nodePath.basename(path)
       .split('.')
 
     if (!fileName || !fileExtension) {
-      throw new ZipsterError('Directory missing file name or file extension')
+      throw new ZipsterError('Path missing file name or file extension')
     }
 
+    this.path = path
     this.fileName = fileName
-    this.directory = directory
     this.fileExtension = fileExtension
   }
 
@@ -38,10 +38,10 @@ class FileParts {
   }
 
   /**
-   * Get the directory of the file
+   * Get the path of the file
    */
-  public getDirectory(): string {
-    return this.directory
+  public getPath(): string {
+    return this.path
   }
 }
 
