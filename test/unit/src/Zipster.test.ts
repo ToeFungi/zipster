@@ -162,6 +162,18 @@ describe('Zipster', () => {
         .should.become(expectedDirectory)
     })
 
+    it('resolves with the configured directory when the file is successfully zipped', () => {
+      const options: Options = {
+        format: Formats.ZIP,
+        output: {}
+      }
+
+      readFileSync.returns(buffer)
+
+      return zipper.createBulk(directories, options)
+        .should.become(expectedDirectory)
+    })
+
     it('resolves after calling the appropriate dependencies', () => {
       readFileSync.returns(buffer)
 
