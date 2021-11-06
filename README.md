@@ -1,6 +1,10 @@
 # Zipster
 
 [![NPM Version](https://badge.fury.io/js/zipster.svg)](https://badge.fury.io/js/zipster)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ToeFungi_zipster&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ToeFungi_zipster)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ToeFungi_zipster&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ToeFungi_zipster)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ToeFungi_zipster&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ToeFungi_zipster)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ToeFungi_zipster&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ToeFungi_zipster)
 
 Zipster aims to enable developers to easily create password-protected ZIP files. This library relies on a combination of
 other libraries to function correctly as well as built-in Node functionality.
@@ -17,7 +21,7 @@ a number of different options to configure how your ZIP files are created.
 - [Installation](#installation)
 - [Usage](#usage)
     - [Create a ZIP with a single file](#createpath-string-options-options)
-    - [Create a ZIP with a multiple files](#createbulkpaths-string-options-options)
+    - [Create a ZIP with multiple files](#createbulkpaths-string-options-options)
     - [Options](#options)
 - [Tests](#running-tests)
 - [Issues](#issues)
