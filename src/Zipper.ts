@@ -11,7 +11,7 @@ import { ArchiverFactory } from './factories/ArchiverFactory'
  */
 class Zipper {
   /**
-   * ZIP a specific file with a password
+   * Add a single file to a single ZIP file
    */
   public create (directory: string, options: Options): Promise<string> {
     const fileParts = new FileParts(directory)
@@ -25,9 +25,9 @@ class Zipper {
 
     const outputLocation = `${outputDirectory}/${outputName}.zip`
 
-    const getSourceBuffer = () => fs.readFileSync(directory)
+    const getSourceBuffer = (): Buffer => fs.readFileSync(directory)
 
-    const createZip = (sourceBuffer: Buffer) => {
+    const createZip = (sourceBuffer: Buffer): Promise<void> => {
       const writeStream = fs.createWriteStream(outputLocation)
 
       const archive = ArchiverFactory.getArchiver(options)
@@ -38,15 +38,57 @@ class Zipper {
       return archive.finalize()
     }
 
-    const mapSuccess = () => outputLocation
+    const mapSuccess = (): string => outputLocation
 
-    const tapError = (error: Error) => {
+    const tapError = (error: Error): never => {
       throw new ZipperError(error.message)
     }
 
     return Promise.resolve()
       .then(getSourceBuffer)
       .then(createZip)
+      .then(mapSuccess)
+      .catch(tapError)
+  }
+
+  /**
+   * Add multiple files to a single ZIP file
+   */
+  public createBulk (directories: string[], options: Options): Promise<string> {
+    const outputName = options?.output?.name ?? 'archive'
+    const outputDirectory = options?.output?.directory ?? os.tmpdir()
+
+    const outputLocation = `${outputDirectory}/${outputName}.zip`
+
+    const mapToFileParts = () => directories.map((directory: string) => new FileParts(directory))
+
+    const appendToZIP = (fileParts: FileParts[]) => {
+      const writeStream = fs.createWriteStream(outputLocation)
+      const archive = ArchiverFactory.getArchiver(options)
+
+      archive.pipe(writeStream)
+
+      fileParts.forEach((filePart: FileParts) => {
+        const sourceBuffer = fs.readFileSync(filePart.getDirectory())
+        const archiveData = {
+          name: `${filePart.getName()}.${filePart.getExtension()}`
+        }
+
+        archive.append(sourceBuffer, archiveData)
+      })
+
+      return archive.finalize()
+    }
+
+    const mapSuccess = () => outputLocation
+
+    const tapError = (error: Error): never => {
+      throw new ZipperError(error.message)
+    }
+
+    return Promise.resolve()
+      .then(mapToFileParts)
+      .then(appendToZIP)
       .then(mapSuccess)
       .catch(tapError)
   }
