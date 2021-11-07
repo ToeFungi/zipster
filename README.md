@@ -24,6 +24,7 @@ files and pass in a number of different options to configure how your ZIP files 
     - [Create a ZIP with a single file](#frompathpath-string-options-options)
     - [Create a ZIP with multiple files](#frompathspaths-string-options-options)
     - [Create a ZIP from a directory](#fromdirectorypath-string-options-options)
+    - [Create a ZIP with a pattern](#frompatternpath-string-pattern-string-options-options)
     - [Options](#options)
     - [Password Example](#password-example)
 - [Tests](#running-tests)
