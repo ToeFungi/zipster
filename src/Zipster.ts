@@ -2,10 +2,13 @@ import * as fs from 'fs'
 import * as os from 'os'
 import * as uuid from 'uuid'
 
+import { IOptions } from 'glob'
+
 import { Options } from './types/Options'
 import { FileParts } from './libs/FileParts'
 import { ZipsterError } from './errors/ZipsterError'
 import { ArchiverFactory } from './factories/ArchiverFactory'
+import { Archiver } from 'archiver'
 
 /**
  * Zipper facilitates the zipping and protecting of data
@@ -26,13 +29,8 @@ class Zipster {
     const getSourceBuffer = (): Buffer => fs.readFileSync(path)
 
     const createZip = (sourceBuffer: Buffer): Promise<void> => {
-      const writeStream = fs.createWriteStream(outputLocation)
-
-      const archive = ArchiverFactory.getArchiver(options)
-
-      archive.pipe(writeStream)
+      const archive = this.getArchiver(options, outputLocation)
       archive.append(sourceBuffer, archiveData)
-
       return archive.finalize()
     }
 
@@ -58,10 +56,7 @@ class Zipster {
     const mapToFileParts = () => paths.map((path: string) => new FileParts(path))
 
     const appendToZIP = (fileParts: FileParts[]) => {
-      const writeStream = fs.createWriteStream(outputLocation)
-      const archive = ArchiverFactory.getArchiver(options)
-
-      archive.pipe(writeStream)
+      const archive = this.getArchiver(options, outputLocation)
 
       fileParts.forEach((filePart: FileParts) => {
         const sourceBuffer = fs.readFileSync(filePart.getPath())
@@ -95,13 +90,8 @@ class Zipster {
     const outputLocation = this.getOutputPath(options)
 
     const createZip = (): Promise<void> => {
-      const writeStream = fs.createWriteStream(outputLocation)
-
-      const archive = ArchiverFactory.getArchiver(options)
-
-      archive.pipe(writeStream)
+      const archive = this.getArchiver(options, outputLocation)
       archive.directory(path, false)
-
       return archive.finalize()
     }
 
@@ -115,6 +105,44 @@ class Zipster {
       .then(createZip)
       .then(mapSuccess)
       .catch(tapError)
+  }
+
+  /**
+   * Create a ZIP containing files matching the specified pattern at the specified path
+   */
+  public fromPattern(path: string, pattern: string, options: Options): Promise<string> {
+    const outputLocation = this.getOutputPath(options)
+    const globOptions: IOptions = {
+      cwd: path
+    }
+
+    const createZip = (): Promise<void> => {
+      const archive = this.getArchiver(options, outputLocation)
+      archive.glob(pattern, globOptions)
+      return archive.finalize()
+    }
+
+    const mapSuccess = (): string => outputLocation
+
+    const tapError = (error: Error): never => {
+      throw new ZipsterError(error.message)
+    }
+
+    return Promise.resolve()
+      .then(createZip)
+      .then(mapSuccess)
+      .catch(tapError)
+  }
+
+  /**
+   * Returns the configured archiver
+   */
+  private getArchiver(options: Options, outputLocation: string): Archiver {
+    const writeStream = fs.createWriteStream(outputLocation)
+    const archive = ArchiverFactory.getArchiver(options)
+
+    archive.pipe(writeStream)
+    return archive
   }
 
   /**
