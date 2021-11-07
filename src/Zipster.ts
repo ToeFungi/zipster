@@ -11,7 +11,7 @@ import { ZipsterError } from './errors/ZipsterError'
 import { ArchiverFactory } from './factories/ArchiverFactory'
 
 /**
- * Zipper facilitates the zipping and protecting of data
+ * Zipster facilitates the zipping and protecting of data
  */
 class Zipster {
   /**

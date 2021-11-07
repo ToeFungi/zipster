@@ -1,5 +1,5 @@
 /**
- * Zipper Error is the generic error for the Zipper library
+ * Zipster Error is the generic error for the Zipster library
  */
 class ZipsterError extends Error {
   constructor(message: string) {
