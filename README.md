@@ -6,11 +6,12 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ToeFungi_zipster&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ToeFungi_zipster)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ToeFungi_zipster&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ToeFungi_zipster)
 
-Zipster aims to enable developers to easily create password-protected ZIP files. This library relies on a combination of
-other libraries to function correctly as well as built-in Node functionality.
+Zipster aims to enable developers to rapidly and easily create password-protected ZIP files. With various handy
+functions available to satisfy different use-cases, this promise-based library is built using TypeScript and uses native
+Node functionality and leverages two primary libraries.
 
-Although the core behind Zipster is password-protected ZIP files, you can also create passwordless ZIP files and pass in
-a number of different options to configure how your ZIP files are created.
+Although the fundamental principle behind Zipster is password-protected ZIP files, you can also create unprotected ZIP
+files and pass in a number of different options to configure how your ZIP files are created.
 
 **This project is still in development. Please report any bugs or feature requests as an
 [issue](https://github.com/ToeFungi/zipper/issues/new).**
@@ -32,7 +33,7 @@ a number of different options to configure how your ZIP files are created.
 
 ## Getting Started
 
-This is how to get a copy of this working locally. The only requirement is that Node is installed on the base machine.
+You can get started with cloning the Zipster repository by using the following command:
 
 ```bash
 $ git clone git@github.com:ToeFungi/zipster.git
@@ -42,7 +43,7 @@ $ npm i
 
 ## Installation
 
-Use the following command to install the Zipster:
+Use the following command to install the Zipster package:
 
 ```
 npm i zipster
@@ -50,12 +51,14 @@ npm i zipster
 
 ## Usage
 
-You can create a ZIP file containing a single file or multiple files, set a password or not and configure how you want
-the ZIP to be created.
+There are various ways in which you can create your ZIP file and even more options on how you want it configured. You
+can set a password or not, compress or not, specify patterns to match for zipping files, etc.
+
+Here are some examples of how to use the functionality provided by this package:
 
 #### .fromPath(path: string, options: Options)
 
-Create ZIP file containing a single file
+Create an unprotected ZIP file containing a single specified file
 
 ```typescript
 const path = '/some/path/to/my/file.txt'
@@ -70,7 +73,7 @@ zipster.fromPath(path, options)
 
 #### .fromPaths(paths: string[], options: Options)
 
-Create ZIP file containing multiple files
+Create an unprotected ZIP file containing multiple specified files
 
 ```typescript
 const paths = [
@@ -88,7 +91,7 @@ zipster.fromPaths(paths, options)
 
 #### .fromDirectory(path: string, options: Options)
 
-Creates a ZIP file containing all the sub-directories at a given path, retaining the folder structure of the
+Create an unprotected ZIP file containing all the sub-directories at a given path, retaining the folder structure of the
 sub-directories
 
 ```typescript
@@ -104,7 +107,7 @@ zipster.fromDirectory(path, options)
 
 #### .fromPattern(path: string, pattern: string, options: Options)
 
-Creates a ZIP file containing all the files matching the given pattern at the given path
+Create an unprotected ZIP file containing all the files matching the given pattern at the given path
 
 ```typescript
 const path = '/some/path/to/my/directory'
@@ -129,7 +132,7 @@ zipster.fromPattern(path, pattern, options)
 
 #### Password Example
 
-Create a password-protected ZIP file
+Create a password-protected ZIP file containing the specified file
 
 ```typescript
 const path = '/some/path/to/my/file.txt'
