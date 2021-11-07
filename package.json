@@ -1,6 +1,6 @@
 {
   "name": "zipster",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -20,7 +20,10 @@
     "files",
     "compression",
     "compress",
-    "bulk"
+    "bulk",
+    "pattern",
+    "directory",
+    "promises"
   ],
   "files": [
     "lib",
@@ -57,7 +60,7 @@
     "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
     "mocha": "9.1.3",
-    "nyc": "^15.1.0",
+    "nyc": "15.1.0",
     "sinon": "12.0.1",
     "sinon-chai": "3.7.0",
     "source-map-support": "0.5.20",

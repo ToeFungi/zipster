@@ -23,11 +23,11 @@ class ArchiverFactory {
       ...rest
     }
 
-    if (options.format === Formats.ZIP) {
+    if (options.format === Formats.ZIP || options.format === Formats.TAR) {
       return create(options.format, archiverOptions)
     }
 
-    if (options.format === Formats.ZIP_ENCRYPTABLE) {
+    if (options.format === Formats.ZIP_ENCRYPTED) {
       this.registerZipEncryptable()
       return create(options.format, archiverOptions)
     }
@@ -36,8 +36,8 @@ class ArchiverFactory {
   }
 
   private static registerZipEncryptable() {
-    if (!isRegisteredFormat(Formats.ZIP_ENCRYPTABLE)) {
-      registerFormat(Formats.ZIP_ENCRYPTABLE, archiverZipEncryptable)
+    if (!isRegisteredFormat(Formats.ZIP_ENCRYPTED)) {
+      registerFormat(Formats.ZIP_ENCRYPTED, archiverZipEncryptable)
     }
   }
 }
