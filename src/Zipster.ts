@@ -14,7 +14,7 @@ class Zipster {
   /**
    * Add a single file to a single ZIP file
    */
-  public create(path: string, options: Options): Promise<string> {
+  public fromPath(path: string, options: Options): Promise<string> {
     const fileParts = new FileParts(path)
 
     const archiveData = {
@@ -52,7 +52,7 @@ class Zipster {
   /**
    * Add multiple files to a single ZIP file
    */
-  public createBulk(paths: string[], options: Options): Promise<string> {
+  public fromPaths(paths: string[], options: Options): Promise<string> {
     const outputLocation = this.getOutputPath(options)
 
     const mapToFileParts = () => paths.map((path: string) => new FileParts(path))
@@ -84,6 +84,35 @@ class Zipster {
     return Promise.resolve()
       .then(mapToFileParts)
       .then(appendToZIP)
+      .then(mapSuccess)
+      .catch(tapError)
+  }
+
+  /**
+   * Create a ZIP containing all files within specified directory
+   */
+  public fromDirectory(path: string, options: Options): Promise<string> {
+    const outputLocation = this.getOutputPath(options)
+
+    const createZip = (): Promise<void> => {
+      const writeStream = fs.createWriteStream(outputLocation)
+
+      const archive = ArchiverFactory.getArchiver(options)
+
+      archive.pipe(writeStream)
+      archive.directory(path, false)
+
+      return archive.finalize()
+    }
+
+    const mapSuccess = (): string => outputLocation
+
+    const tapError = (error: Error): never => {
+      throw new ZipsterError(error.message)
+    }
+
+    return Promise.resolve()
+      .then(createZip)
       .then(mapSuccess)
       .catch(tapError)
   }
