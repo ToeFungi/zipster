@@ -20,8 +20,9 @@ a number of different options to configure how your ZIP files are created.
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Create a ZIP with a single file](#createpath-string-options-options)
-    - [Create a ZIP with multiple files](#createbulkpaths-string-options-options)
+    - [Create a ZIP with a single file](#frompathpath-string-options-options)
+    - [Create a ZIP with multiple files](#frompathspaths-string-options-options)
+    - [Create a ZIP from a directory](#fromdirectorypath-string-options-options)
     - [Options](#options)
 - [Tests](#running-tests)
 - [Issues](#issues)
@@ -51,7 +52,7 @@ npm i zipster
 You can create a ZIP file containing a single file or multiple files, set a password or not and configure how you want
 the ZIP to be created.
 
-#### .create(path: string, options: Options)
+#### .fromPath(path: string, options: Options)
 
 Create ZIP file containing a single file
 
@@ -62,16 +63,16 @@ const options: Options = {
 }
 
 const zipster = new Zipster()
-zipster.create(path, options)
+zipster.fromPath(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
-#### .createBulk(paths: string[], options: Options)
+#### .fromPaths(paths: string[], options: Options)
 
 Create ZIP file containing multiple files
 
 ```typescript
-const path = [
+const paths = [
   '/some/path/to/my/file.txt',
   '/some/path/to/my/file.csv'
 ]
@@ -80,7 +81,22 @@ const options: Options = {
 }
 
 const zipster = new Zipster()
-zipster.createBulk(paths, options)
+zipster.fromPaths(paths, options)
+  .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
+```
+
+#### .fromDirectory(path: string, options: Options)
+
+ZIP all sub-directories at a given path, retaining the folder structure of the sub-directories
+
+```typescript
+const path = '/some/path/to/my/directory'
+const options: Options = {
+  format: Formats.ZIP
+}
+
+const zipster = new Zipster()
+zipster.fromDirectory(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
