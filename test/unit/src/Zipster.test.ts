@@ -46,7 +46,7 @@ describe('Zipster', () => {
 
   afterEach(() => sandbox.restore())
 
-  describe('#create', () => {
+  describe('#fromPath', () => {
     beforeEach(() => {
       tmpdir.onFirstCall()
         .returns('/some/path/to')
@@ -74,7 +74,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .returns(buffer)
 
-      return zipster.create(directory, options)
+      return zipster.fromPath(directory, options)
         .should.become(expectedPath)
     })
 
@@ -86,7 +86,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .returns(buffer)
 
-      return zipster.create(directory, options)
+      return zipster.fromPath(directory, options)
         .should.become(expectedPath)
         .then(() => {
           tmpdir.should.have.callCount(1)
@@ -106,12 +106,12 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .throws(error)
 
-      return zipster.create(directory, options)
+      return zipster.fromPath(directory, options)
         .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
 
-  describe('#createBulk', () => {
+  describe('#fromPaths', () => {
     const directories = [
       directory,
       '/some/path/to/other.csv'
@@ -140,7 +140,7 @@ describe('Zipster', () => {
     it('resolves with the directory when the file is successfully zipped', () => {
       readFileSync.returns(buffer)
 
-      return zipster.createBulk(directories, options)
+      return zipster.fromPaths(directories, options)
         .should.become(expectedPath)
     })
 
@@ -156,7 +156,7 @@ describe('Zipster', () => {
 
       readFileSync.returns(buffer)
 
-      return zipster.createBulk(directories, options)
+      return zipster.fromPaths(directories, options)
         .should.become(expectedDirectory)
     })
 
@@ -168,14 +168,14 @@ describe('Zipster', () => {
 
       readFileSync.returns(buffer)
 
-      return zipster.createBulk(directories, options)
+      return zipster.fromPaths(directories, options)
         .should.become(expectedPath)
     })
 
     it('resolves after calling the appropriate dependencies', () => {
       readFileSync.returns(buffer)
 
-      return zipster.createBulk(directories, options)
+      return zipster.fromPaths(directories, options)
         .should.be.fulfilled
         .then(() => {
           tmpdir.should.have.callCount(1)
@@ -197,7 +197,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .throws(error)
 
-      return zipster.createBulk(directories, options)
+      return zipster.fromPaths(directories, options)
         .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
@@ -248,6 +248,28 @@ describe('Zipster', () => {
           archiver.pipe.should.have.been.calledOnceWithExactly(stream)
           archiver.directory.should.have.been.calledOnceWithExactly(path, false)
           archiver.finalize.should.have.callCount(1)
+        })
+    })
+
+    it('resolves with the configured output location and name', () => {
+      const options: Options = {
+        format: Formats.ZIP_ENCRYPTABLE,
+        password: 'testing',
+        output: {
+          path: '/foo/bar',
+          name: 'foobar'
+        }
+      }
+      const expectedPath = `${options.output.path}/${options.output.name}.zip`
+
+      archiver.finalize
+        .onFirstCall()
+        .resolves()
+
+      return zipster.fromDirectory(path, options)
+        .should.become(expectedPath)
+        .then(() => {
+          getArchiver.should.have.been.calledOnceWithExactly(options)
         })
     })
 

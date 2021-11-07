@@ -14,7 +14,7 @@ class Zipster {
   /**
    * Add a single file to a single ZIP file
    */
-  public create(path: string, options: Options): Promise<string> {
+  public fromPath(path: string, options: Options): Promise<string> {
     const fileParts = new FileParts(path)
 
     const archiveData = {
@@ -52,7 +52,7 @@ class Zipster {
   /**
    * Add multiple files to a single ZIP file
    */
-  public createBulk(paths: string[], options: Options): Promise<string> {
+  public fromPaths(paths: string[], options: Options): Promise<string> {
     const outputLocation = this.getOutputPath(options)
 
     const mapToFileParts = () => paths.map((path: string) => new FileParts(path))
