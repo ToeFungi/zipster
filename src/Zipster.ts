@@ -3,12 +3,12 @@ import * as os from 'os'
 import * as uuid from 'uuid'
 
 import { IOptions } from 'glob'
+import { Archiver } from 'archiver'
 
 import { Options } from './types/Options'
 import { FileParts } from './libs/FileParts'
 import { ZipsterError } from './errors/ZipsterError'
 import { ArchiverFactory } from './factories/ArchiverFactory'
-import { Archiver } from 'archiver'
 
 /**
  * Zipper facilitates the zipping and protecting of data
