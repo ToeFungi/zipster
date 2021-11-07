@@ -27,6 +27,7 @@ files and pass in a number of different options to configure how your ZIP files 
     - [Create a ZIP with a pattern](#frompatternpath-string-pattern-string-options-options)
     - [Options](#options)
     - [Password Example](#password-example)
+    - [Supported Formats](#supported-formats)
 - [Tests](#running-tests)
 - [Issues](#issues)
 - [Contributions](#contributions)
@@ -146,6 +147,11 @@ const zipster = new Zipster()
 zipster.fromPath(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
+
+#### Supported Formats
+
+There are currently only two formats that are supported, the `.zip` and `.tar` formats. The `zip` format is the only
+format which supports password protection. The password format is specifically available through the `Formats` enum.
 
 ## Tests
 

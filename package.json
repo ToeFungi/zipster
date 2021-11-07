@@ -1,6 +1,6 @@
 {
   "name": "zipster",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

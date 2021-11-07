@@ -5,6 +5,7 @@ import * as uuid from 'uuid'
 import { IOptions } from 'glob'
 import { Archiver } from 'archiver'
 
+import { Formats } from './enums/Formats'
 import { Options } from './types/Options'
 import { FileParts } from './libs/FileParts'
 import { ZipsterError } from './errors/ZipsterError'
@@ -149,10 +150,17 @@ class Zipster {
    * Returns the output path configured with specified options or defaults
    */
   private getOutputPath(options: Options): string {
+    const extensionMap = {
+      [Formats.TAR]: 'tar',
+      [Formats.ZIP]: 'zip',
+      [Formats.ZIP_ENCRYPTED]: 'zip'
+    }
+
+    const extension = extensionMap[options.format]
     const outputName = options.output?.name ?? uuid.v4()
     const outputDirectory = options.output?.path ?? os.tmpdir()
 
-    return `${outputDirectory}/${outputName}.zip`
+    return `${outputDirectory}/${outputName}.${extension}`
   }
 }
 

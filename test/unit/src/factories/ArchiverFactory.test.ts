@@ -40,7 +40,7 @@ describe('ArchiverFactory', () => {
 
     const testCases = [
       {
-        descriptor: 'returns archiver without password',
+        descriptor: 'returns ZIP archiver without password',
         options: {
           format: Formats.ZIP
         } as Options,
@@ -51,9 +51,20 @@ describe('ArchiverFactory', () => {
         }
       },
       {
-        descriptor: 'returns archiver with a password',
+        descriptor: 'returns TAR archiver without password',
         options: {
-          format: Formats.ZIP_ENCRYPTABLE,
+          format: Formats.TAR
+        } as Options,
+        assertions: () => {
+          create.should.have.been.calledOnceWithExactly(Formats.TAR, defaultArchiverOptions)
+          registerFormat.should.have.callCount(0)
+          isRegisteredFormat.should.have.callCount(0)
+        }
+      },
+      {
+        descriptor: 'returns ZIP archiver with a password configured and registers the formatter',
+        options: {
+          format: Formats.ZIP_ENCRYPTED,
           password: 'Foo'
         } as Options,
         setup: () => {
@@ -61,18 +72,18 @@ describe('ArchiverFactory', () => {
             .returns(false)
         },
         assertions: () => {
-          create.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE, {
+          create.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTED, {
             ...defaultArchiverOptions,
             password: 'Foo'
           })
-          registerFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE, archiverZipEncryptable)
-          isRegisteredFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE)
+          registerFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTED, archiverZipEncryptable)
+          isRegisteredFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTED)
         }
       },
       {
-        descriptor: 'returns archiver with a password and does not re-register formatter',
+        descriptor: 'returns archiver with a password configured and does not re-register formatter',
         options: {
-          format: Formats.ZIP_ENCRYPTABLE,
+          format: Formats.ZIP_ENCRYPTED,
           password: 'Foo'
         } as Options,
         setup: () => {
@@ -80,12 +91,12 @@ describe('ArchiverFactory', () => {
             .returns(true)
         },
         assertions: () => {
-          create.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE, {
+          create.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTED, {
             ...defaultArchiverOptions,
             password: 'Foo'
           })
           registerFormat.should.have.callCount(0)
-          isRegisteredFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTABLE)
+          isRegisteredFormat.should.have.been.calledOnceWithExactly(Formats.ZIP_ENCRYPTED)
         }
       }
     ]

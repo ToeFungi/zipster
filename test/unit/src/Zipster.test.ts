@@ -254,7 +254,7 @@ describe('Zipster', () => {
 
     it('resolves with the configured output location and name', () => {
       const options: Options = {
-        format: Formats.ZIP_ENCRYPTABLE,
+        format: Formats.ZIP_ENCRYPTED,
         password: 'testing',
         output: {
           path: '/foo/bar',
