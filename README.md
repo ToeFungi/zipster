@@ -24,6 +24,7 @@ a number of different options to configure how your ZIP files are created.
     - [Create a ZIP with multiple files](#frompathspaths-string-options-options)
     - [Create a ZIP from a directory](#fromdirectorypath-string-options-options)
     - [Options](#options)
+    - [Password Example](#password-example)
 - [Tests](#running-tests)
 - [Issues](#issues)
 - [Contributions](#contributions)
@@ -87,7 +88,8 @@ zipster.fromPaths(paths, options)
 
 #### .fromDirectory(path: string, options: Options)
 
-ZIP all sub-directories at a given path, retaining the folder structure of the sub-directories
+Creates a ZIP file containing all the sub-directories at a given path, retaining the folder structure of the
+sub-directories
 
 ```typescript
 const path = '/some/path/to/my/directory'
@@ -100,6 +102,22 @@ zipster.fromDirectory(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
+#### .fromPattern(path: string, pattern: string, options: Options)
+
+Creates a ZIP file containing all the files matching the given pattern at the given path
+
+```typescript
+const path = '/some/path/to/my/directory'
+const pattern = 'foo*.txt'
+const options: Options = {
+  format: Formats.ZIP
+}
+
+const zipster = new Zipster()
+zipster.fromPattern(path, pattern, options)
+  .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
+```
+
 #### Options
 
 | Option      | Default     | Description                                                |
@@ -108,6 +126,22 @@ zipster.fromDirectory(path, options)
 | password    | null        | The password for the ZIP if applicable format is specified |
 | output name | UUID V4     | The name of the ZIP file to be created                     |
 | output path | OS Specific | The path to where the ZIP file should be created           |
+
+#### Password Example
+
+Create a password-protected ZIP file
+
+```typescript
+const path = '/some/path/to/my/file.txt'
+const options: Options = {
+  format: Formats.ZIP_ENCRYPTABLE,
+  password: 'super-sensitive-password'
+}
+
+const zipster = new Zipster()
+zipster.fromPath(path, options)
+  .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
+```
 
 ## Tests
 
