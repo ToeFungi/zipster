@@ -89,6 +89,35 @@ class Zipster {
   }
 
   /**
+   * Create a ZIP containing all files within specified directory
+   */
+  public fromDirectory(path: string, options: Options): Promise<string> {
+    const outputLocation = this.getOutputPath(options)
+
+    const createZip = (): Promise<void> => {
+      const writeStream = fs.createWriteStream(outputLocation)
+
+      const archive = ArchiverFactory.getArchiver(options)
+
+      archive.pipe(writeStream)
+      archive.directory(path, false)
+
+      return archive.finalize()
+    }
+
+    const mapSuccess = (): string => outputLocation
+
+    const tapError = (error: Error): never => {
+      throw new ZipsterError(error.message)
+    }
+
+    return Promise.resolve()
+      .then(createZip)
+      .then(mapSuccess)
+      .catch(tapError)
+  }
+
+  /**
    * Returns the output path configured with specified options or defaults
    */
   private getOutputPath(options: Options): string {
