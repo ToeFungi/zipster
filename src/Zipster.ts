@@ -3,6 +3,7 @@ import * as os from 'os'
 import * as uuid from 'uuid'
 
 import { IOptions } from 'glob'
+import { Guarder } from 'guarder'
 import { Archiver } from 'archiver'
 
 import { Formats } from './enums/Formats'
@@ -88,6 +89,8 @@ class Zipster {
    * Create a ZIP containing all files within specified directory
    */
   public fromDirectory(path: string, options: Options): Promise<string> {
+    Guarder.empty(path, 'Path is required', ZipsterError)
+
     const outputLocation = this.getOutputPath(options)
 
     const createZip = (): Promise<void> => {
@@ -112,6 +115,9 @@ class Zipster {
    * Create a ZIP containing files matching the specified pattern at the specified path
    */
   public fromPattern(path: string, pattern: string, options: Options): Promise<string> {
+    Guarder.empty(path, 'Path is required', ZipsterError)
+    Guarder.empty(pattern, 'Pattern is required', ZipsterError)
+
     const outputLocation = this.getOutputPath(options)
     const globOptions: IOptions = {
       cwd: path

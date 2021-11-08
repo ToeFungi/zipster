@@ -1,6 +1,6 @@
 {
   "name": "zipster",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "TypeScript library built for Node backends to create ZIP files with password protection",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -45,9 +45,10 @@
   },
   "homepage": "https://github.com/ToeFungi/zipster",
   "dependencies": {
-    "uuid": "3.4.0",
     "archiver": "5.3.0",
-    "archiver-zip-encryptable": "1.0.10"
+    "archiver-zip-encryptable": "1.0.10",
+    "guarder": "0.2.0",
+    "uuid": "3.4.0"
   },
   "devDependencies": {
     "@types/archiver": "5.1.1",

@@ -1,5 +1,7 @@
 import * as nodePath from 'path'
 
+import { Guarder } from 'guarder'
+
 import { ZipsterError } from '../errors/ZipsterError'
 
 /**
@@ -14,9 +16,8 @@ class FileParts {
     const [fileName, fileExtension] = nodePath.basename(path)
       .split('.')
 
-    if (!fileName || !fileExtension) {
-      throw new ZipsterError('Path missing file name or file extension')
-    }
+    Guarder.empty(fileName, 'Path missing file name', ZipsterError)
+    Guarder.empty(fileExtension, 'Path missing file extension', ZipsterError)
 
     this.path = path
     this.fileName = fileName
