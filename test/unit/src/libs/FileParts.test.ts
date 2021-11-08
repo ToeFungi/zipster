@@ -1,4 +1,4 @@
-import { FileParts } from '../../../../src/libs/FileParts'
+import { FileParts } from '../../../../src'
 
 describe('FileParts', () => {
   const fileName = 'file'
@@ -12,11 +12,19 @@ describe('FileParts', () => {
   })
 
   describe('#constructor', () => {
-    it('throws a `ZipsterError` when the path is malformed', () => {
+    it('throws a `ZipsterError` when missing file extension', () => {
       try {
         new FileParts('/malformed/path')
       } catch (error) {
-        return error.message.should.deep.equal('Path missing file name or file extension')
+        return error.message.should.deep.equal('Path missing file extension')
+      }
+    })
+
+    it('throws a `ZipsterError` when missing file name', () => {
+      try {
+        new FileParts('')
+      } catch (error) {
+        return error.message.should.deep.equal('Path missing file name')
       }
     })
   })

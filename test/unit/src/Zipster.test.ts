@@ -274,6 +274,16 @@ describe('Zipster', () => {
         })
     })
 
+    it('rejects with `ZipsterError` when the path is empty', () => {
+      try {
+        zipster.fromDirectory(null as any, options)
+      } catch (error) {
+        error.should.be.instanceOf(ZipsterError)
+        error.message.should.deep.equal('Path is required')
+        return archiver.finalize.should.have.callCount(0)
+      }
+    })
+
     it('rejects with `ZipsterError` when an error occurs', () => {
       archiver.finalize
         .onFirstCall()
@@ -336,6 +346,26 @@ describe('Zipster', () => {
           archiver.glob.should.have.been.calledOnceWithExactly(pattern, globOptions)
           archiver.finalize.should.have.callCount(1)
         })
+    })
+
+    it('rejects with `ZipsterError` when the path is empty', () => {
+      try {
+        zipster.fromPattern(null as any, pattern, options)
+      } catch (error) {
+        error.should.be.instanceOf(ZipsterError)
+        error.message.should.deep.equal('Path is required')
+        return archiver.finalize.should.have.callCount(0)
+      }
+    })
+
+    it('rejects with `ZipsterError` when the pattern is empty', () => {
+      try {
+        zipster.fromPattern(path, null as any, options)
+      } catch (error) {
+        error.should.be.instanceOf(ZipsterError)
+        error.message.should.deep.equal('Pattern is required')
+        return archiver.finalize.should.have.callCount(0)
+      }
     })
 
     it('rejects with `ZipsterError` when an error occurs finalizing the archive', () => {
