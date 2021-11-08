@@ -19,7 +19,7 @@ class Zipster {
   /**
    * Add a single file to a single ZIP file
    */
-  public fromPath(path: string, options: Options): Promise<string> {
+  public static fromPath(path: string, options: Options): Promise<string> {
     const fileParts = new FileParts(path)
 
     const archiveData = {
@@ -52,7 +52,7 @@ class Zipster {
   /**
    * Add multiple files to a single ZIP file
    */
-  public fromPaths(paths: string[], options: Options): Promise<string> {
+  public static fromPaths(paths: string[], options: Options): Promise<string> {
     const outputLocation = this.getOutputPath(options)
 
     const mapToFileParts = () => paths.map((path: string) => new FileParts(path))
@@ -88,7 +88,7 @@ class Zipster {
   /**
    * Create a ZIP containing all files within specified directory
    */
-  public fromDirectory(path: string, options: Options): Promise<string> {
+  public static fromDirectory(path: string, options: Options): Promise<string> {
     Guarder.empty(path, 'Path is required', ZipsterError)
 
     const outputLocation = this.getOutputPath(options)
@@ -114,7 +114,7 @@ class Zipster {
   /**
    * Create a ZIP containing files matching the specified pattern at the specified path
    */
-  public fromPattern(path: string, pattern: string, options: Options): Promise<string> {
+  public static fromPattern(path: string, pattern: string, options: Options): Promise<string> {
     Guarder.empty(path, 'Path is required', ZipsterError)
     Guarder.empty(pattern, 'Pattern is required', ZipsterError)
 
@@ -144,7 +144,7 @@ class Zipster {
   /**
    * Returns the configured archiver
    */
-  private getArchiver(options: Options, outputLocation: string): Archiver {
+  private static getArchiver(options: Options, outputLocation: string): Archiver {
     const writeStream = fs.createWriteStream(outputLocation)
     const archive = ArchiverFactory.getArchiver(options)
 
@@ -155,7 +155,7 @@ class Zipster {
   /**
    * Returns the output path configured with specified options or defaults
    */
-  private getOutputPath(options: Options): string {
+  private static getOutputPath(options: Options): string {
     const extensionMap = {
       [Formats.TAR]: 'tar',
       [Formats.ZIP]: 'zip',

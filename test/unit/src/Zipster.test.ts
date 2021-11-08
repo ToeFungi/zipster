@@ -29,8 +29,6 @@ describe('Zipster', () => {
   let readFileSync: any
   let createWriteStream: any
 
-  let zipster: Zipster
-
   beforeEach(() => {
     archiver = mockArchiver(sandbox)
 
@@ -41,8 +39,6 @@ describe('Zipster', () => {
 
     sandbox.stub(uuid, 'v4')
       .returns(defaultFileName as any)
-
-    zipster = new Zipster()
   })
 
   afterEach(() => sandbox.restore())
@@ -75,7 +71,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .returns(buffer)
 
-      return zipster.fromPath(file, options)
+      return Zipster.fromPath(file, options)
         .should.become(expectedOutputFile)
     })
 
@@ -87,7 +83,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .returns(buffer)
 
-      return zipster.fromPath(file, options)
+      return Zipster.fromPath(file, options)
         .should.become(expectedOutputFile)
         .then(() => {
           tmpdir.should.have.callCount(1)
@@ -107,7 +103,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .throws(error)
 
-      return zipster.fromPath(file, options)
+      return Zipster.fromPath(file, options)
         .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
@@ -141,7 +137,7 @@ describe('Zipster', () => {
     it('resolves with the directory when the file is successfully zipped', () => {
       readFileSync.returns(buffer)
 
-      return zipster.fromPaths(directories, options)
+      return Zipster.fromPaths(directories, options)
         .should.become(expectedOutputFile)
     })
 
@@ -157,7 +153,7 @@ describe('Zipster', () => {
 
       readFileSync.returns(buffer)
 
-      return zipster.fromPaths(directories, options)
+      return Zipster.fromPaths(directories, options)
         .should.become(expectedDirectory)
     })
 
@@ -169,14 +165,14 @@ describe('Zipster', () => {
 
       readFileSync.returns(buffer)
 
-      return zipster.fromPaths(directories, options)
+      return Zipster.fromPaths(directories, options)
         .should.become(expectedOutputFile)
     })
 
     it('resolves after calling the appropriate dependencies', () => {
       readFileSync.returns(buffer)
 
-      return zipster.fromPaths(directories, options)
+      return Zipster.fromPaths(directories, options)
         .should.be.fulfilled
         .then(() => {
           tmpdir.should.have.callCount(1)
@@ -198,7 +194,7 @@ describe('Zipster', () => {
       readFileSync.onFirstCall()
         .throws(error)
 
-      return zipster.fromPaths(directories, options)
+      return Zipster.fromPaths(directories, options)
         .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
@@ -231,7 +227,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .resolves()
 
-      return zipster.fromDirectory(path, options)
+      return Zipster.fromDirectory(path, options)
         .should.become(expectedPath)
     })
 
@@ -240,7 +236,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .resolves()
 
-      return zipster.fromDirectory(path, options)
+      return Zipster.fromDirectory(path, options)
         .should.be.fulfilled
         .then(() => {
           tmpdir.should.have.callCount(1)
@@ -267,7 +263,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .resolves()
 
-      return zipster.fromDirectory(path, options)
+      return Zipster.fromDirectory(path, options)
         .should.become(expectedPath)
         .then(() => {
           getArchiver.should.have.been.calledOnceWithExactly(options)
@@ -276,7 +272,7 @@ describe('Zipster', () => {
 
     it('rejects with `ZipsterError` when the path is empty', () => {
       try {
-        zipster.fromDirectory(null as any, options)
+        Zipster.fromDirectory(null as any, options)
       } catch (error) {
         error.should.be.instanceOf(ZipsterError)
         error.message.should.deep.equal('Path is required')
@@ -289,7 +285,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .rejects(error)
 
-      return zipster.fromDirectory(path, options)
+      return Zipster.fromDirectory(path, options)
         .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
@@ -323,7 +319,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .resolves()
 
-      return zipster.fromPattern(path, pattern, options)
+      return Zipster.fromPattern(path, pattern, options)
         .should.become(expectedOutputFile)
     })
 
@@ -336,7 +332,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .resolves()
 
-      return zipster.fromPattern(path, pattern, options)
+      return Zipster.fromPattern(path, pattern, options)
         .should.be.fulfilled
         .then(() => {
           tmpdir.should.have.callCount(1)
@@ -350,7 +346,7 @@ describe('Zipster', () => {
 
     it('rejects with `ZipsterError` when the path is empty', () => {
       try {
-        zipster.fromPattern(null as any, pattern, options)
+        Zipster.fromPattern(null as any, pattern, options)
       } catch (error) {
         error.should.be.instanceOf(ZipsterError)
         error.message.should.deep.equal('Path is required')
@@ -360,7 +356,7 @@ describe('Zipster', () => {
 
     it('rejects with `ZipsterError` when the pattern is empty', () => {
       try {
-        zipster.fromPattern(path, null as any, options)
+        Zipster.fromPattern(path, null as any, options)
       } catch (error) {
         error.should.be.instanceOf(ZipsterError)
         error.message.should.deep.equal('Pattern is required')
@@ -373,7 +369,7 @@ describe('Zipster', () => {
         .onFirstCall()
         .rejects(error)
 
-      return zipster.fromPattern(path, pattern, options)
+      return Zipster.fromPattern(path, pattern, options)
         .should.be.rejectedWith(ZipsterError, error.message)
     })
   })
