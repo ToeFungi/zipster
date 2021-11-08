@@ -68,8 +68,7 @@ const options: Options = {
   format: Formats.ZIP
 }
 
-const zipster = new Zipster()
-zipster.fromPath(path, options)
+Zipster.fromPath(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
@@ -86,8 +85,7 @@ const options: Options = {
   format: Formats.ZIP
 }
 
-const zipster = new Zipster()
-zipster.fromPaths(paths, options)
+Zipster.fromPaths(paths, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
@@ -102,8 +100,7 @@ const options: Options = {
   format: Formats.ZIP
 }
 
-const zipster = new Zipster()
-zipster.fromDirectory(path, options)
+Zipster.fromDirectory(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
@@ -118,8 +115,7 @@ const options: Options = {
   format: Formats.ZIP
 }
 
-const zipster = new Zipster()
-zipster.fromPattern(path, pattern, options)
+Zipster.fromPattern(path, pattern, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
@@ -143,8 +139,7 @@ const options: Options = {
   password: 'super-sensitive-password'
 }
 
-const zipster = new Zipster()
-zipster.fromPath(path, options)
+Zipster.fromPath(path, options)
   .then((outputPath: string) => console.log({ outputPath }, 'Successfully created ZIP'))
 ```
 
