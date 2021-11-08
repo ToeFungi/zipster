@@ -47,7 +47,7 @@
   "dependencies": {
     "archiver": "5.3.0",
     "archiver-zip-encryptable": "1.0.10",
-    "guarder": "0.2.0",
+    "guarder": "0.5.0",
     "uuid": "3.4.0"
   },
   "devDependencies": {

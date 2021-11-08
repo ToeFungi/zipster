@@ -16,12 +16,9 @@ class FileParts {
     const [fileName, fileExtension] = nodePath.basename(path)
       .split('.')
 
-    Guarder.empty(fileName, 'Path missing file name', ZipsterError)
-    Guarder.empty(fileExtension, 'Path missing file extension', ZipsterError)
-
     this.path = path
-    this.fileName = fileName
-    this.fileExtension = fileExtension
+    this.fileName = Guarder.empty<string>(fileName, 'Path missing file name', ZipsterError)
+    this.fileExtension = Guarder.empty<string>(fileExtension, 'Path missing file extension', ZipsterError)
   }
 
   /**
